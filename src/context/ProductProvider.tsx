@@ -1,4 +1,4 @@
-import { ReactElement, createContext, useState } from "react"
+import { ReactElement, createContext, useState, useEffect } from "react"
 
 export type ProductType = {
     sku: string,
@@ -6,36 +6,64 @@ export type ProductType = {
     price: number
 }
 
-const initState: ProductType[] = [
-    {
-        "sku": "item001",
-        "name": "Widget",
-        "price": 9.99,
-    },
-    {
-        "sku": "item002",
-        "name": "Premium Widget",
-        "price": 19.99
-    },
-    {
-        "sku": "item003",
-        "name": "Deluxe Widget",
-        "price": 29.99
-    }
-]
+const initState: ProductType[] = []
+
+// const initState: ProductType[] = [
+//     {
+//         "sku": "item001",
+//         "name": "Widget",
+//         "price": 9.99,
+//     },
+//     {
+//         "sku": "item002",
+//         "name": "Premium Widget",
+//         "price": 19.99
+//     },
+//     {
+//         "sku": "item003",
+//         "name": "Deluxe Widget",
+//         "price": 29.99
+        
+//     }
+// ]
 
 export type UseProductsContextType = { products: ProductType[] }
-
+ 
 const initContextState: UseProductsContextType = { products: [] }
-const ProductContext = createContext <UseProductsContextType> (initContextState)
+const ProductsContext = createContext < UseProductsContextType > ( initContextState )
 
 // ! creating a children type
 type ChildrenType = { children?: ReactElement | ReactElement[] }
 
 export const ProductsProvider = ({ children }: ChildrenType ): ReactElement => {
-    
-    const [products, setProducts] = useState<ProductType[]>(initState)
 
-    
+    const [products, setProducts] = useState< ProductType[] >( initState )
 
+    // !using the useEffect Hook
+
+    useEffect( () => {
+        const fetchProducts = async (): Promise< ProductType[] > => {
+            
+            const data = await fetch( 'http://localhost:3500/products' ). then ( res => {
+                return res.json();
+            }).catch ( error => { 
+                if ( error instanceof Error ) {
+                    console.log (error.message );
+                }})
+                return data;
+        }
+
+        fetchProducts().then( products => setProducts( products ))
+        
+    }, [] );
+
+    return (
+        <ProductsContext.Provider value={{ products }}>
+            
+            { children }
+
+        </ProductsContext.Provider>
+    )
 }
+
+export default ProductsContext

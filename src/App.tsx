@@ -3,7 +3,7 @@ function App() {
 
   return (
     <div className="App">
-        <h1> E-Commerse React Shop </h1>
+        <h1> TODO: </h1>
     </div>
   )
 }
