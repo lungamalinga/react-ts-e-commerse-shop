@@ -110,8 +110,8 @@ const useCartContext = (initCartState: CartStateType) => {
 
         // todo: start here [ sorting the cart ]
         const cart = state.cart.sort( (a, b) => {
-            const itemA = Number (a.sku.slice (-4)) // ! last 4 digits of sku
-            const itemB = Number (a.sku.slice (-4)) // ! last 4 digits of sku
+            const itemA = Number (a.sku.slice (-4)) // ! last 4 digits of sku [last four numbers]
+            const itemB = Number (b.sku.slice (-4)) // ! last 4 digits of sku [last four numbers]
             return itemA - itemB
         } )
 
@@ -139,7 +139,7 @@ export const CartProvider = ({ children }: ChildrenType): ReactElement => {
     return (
         <CartContext.Provider value={ useCartContext( initCartState ) }>
             { children }
-        </CartContext.Provider>
+        </CartContext.Provider> 
     )
 }
 
