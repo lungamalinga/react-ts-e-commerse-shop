@@ -6,26 +6,26 @@ export type ProductType = {
     price: number
 }
 
-const initState: ProductType[] = []
+// const initState: ProductType[] = []
 
-// const initState: ProductType[] = [
-//     {
-//         "sku": "item001",
-//         "name": "Widget",
-//         "price": 9.99,
-//     },
-//     {
-//         "sku": "item002",
-//         "name": "Premium Widget",
-//         "price": 19.99
-//     },
-//     {
-//         "sku": "item003",
-//         "name": "Deluxe Widget",
-//         "price": 29.99
+const initState: ProductType[] = [
+    {
+        "sku": "item001",
+        "name": "Widget",
+        "price": 9.99,
+    },
+    {
+        "sku": "item002",
+        "name": "Premium Widget",
+        "price": 19.99
+    },
+    {
+        "sku": "item003",
+        "name": "Deluxe Widget",
+        "price": 29.99
         
-//     }
-// ]
+    }
+]
 
 export type UseProductsContextType = { products: ProductType[] }
  
@@ -39,23 +39,26 @@ export const ProductsProvider = ({ children }: ChildrenType ): ReactElement => {
 
     const [products, setProducts] = useState< ProductType[] >( initState )
 
-    // !using the useEffect Hook
+    // !using the useEffect Hook 
+    /**
+     * * Use the concept below when call an api
+     */
 
-    useEffect( () => {
-        const fetchProducts = async (): Promise< ProductType[] > => {
+    // useEffect( () => {
+    //     const fetchProducts = async (): Promise< ProductType[] > => {
             
-            const data = await fetch( 'http://localhost:3500/products' ). then ( res => {
-                return res.json();
-            }).catch ( error => { 
-                if ( error instanceof Error ) {
-                    console.log (error.message );
-                }})
-                return data;
-        }
+    //         const data = await fetch( 'http://localhost:3500/products' ). then ( res => {
+    //             return res.json();
+    //         }).catch ( error => { 
+    //             if ( error instanceof Error ) {
+    //                 console.log (error.message );
+    //             }})
+    //             return data;
+    //     }
 
-        fetchProducts().then( products => setProducts( products ))
+    //     fetchProducts().then( products => setProducts( products ))
         
-    }, [] );
+    // }, [] );
 
     return (
         <ProductsContext.Provider value={{ products }}>
